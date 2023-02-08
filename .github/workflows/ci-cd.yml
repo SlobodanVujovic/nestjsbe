@@ -11,7 +11,6 @@
 # 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
 #    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
 #
-#
 # For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
@@ -70,6 +69,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: ${{ env.AZURE_WEBAPP_NAME }}
+    
+    - name: Unzip aftifact for deployment
+      run: unzip nestjsapp.zip
 
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp
@@ -77,7 +79,6 @@ jobs:
       with:
         app-name: nestjsbe
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: nestjsapp.zip
 
     - name: Delete zip file
       run: rm nestjsapp.zip
